@@ -1,0 +1,499 @@
+basePath: /api/v1
+definitions:
+  ent.Department:
+    properties:
+      Name:
+        description: Name holds the value of the "Name" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.DepartmentEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the DepartmentQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.DepartmentEdges:
+    properties:
+      employee:
+        description: Employee holds the value of the employee edge.
+        items:
+          $ref: '#/definitions/ent.Employee'
+        type: array
+    type: object
+  ent.Employee:
+    properties:
+      AttendTime:
+        description: AttendTime holds the value of the "AttendTime" field.
+        type: string
+      BirthdayDate:
+        description: BirthdayDate holds the value of the "BirthdayDate" field.
+        type: string
+      Email:
+        description: Email holds the value of the "Email" field.
+        type: string
+      FinishTime:
+        description: FinishTime holds the value of the "FinishTime" field.
+        type: string
+      Name:
+        description: Name holds the value of the "Name" field.
+        type: string
+      Tel:
+        description: Tel holds the value of the "Tel" field.
+        type: string
+      User_id:
+        description: UserID holds the value of the "User_id" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.EmployeeEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the EmployeeQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.EmployeeEdges:
+    properties:
+      department:
+        $ref: '#/definitions/ent.Department'
+        description: Department holds the value of the department edge.
+        type: object
+      place:
+        $ref: '#/definitions/ent.Place'
+        description: Place holds the value of the place edge.
+        type: object
+      titlename:
+        $ref: '#/definitions/ent.Titlename'
+        description: Titlename holds the value of the titlename edge.
+        type: object
+    type: object
+  ent.Place:
+    properties:
+      Name:
+        description: Name holds the value of the "Name" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.PlaceEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the PlaceQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.PlaceEdges:
+    properties:
+      employee:
+        description: Employee holds the value of the employee edge.
+        items:
+          $ref: '#/definitions/ent.Employee'
+        type: array
+    type: object
+  ent.Titlename:
+    properties:
+      Name:
+        description: Name holds the value of the "Name" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.TitlenameEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the TitlenameQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.TitlenameEdges:
+    properties:
+      employee:
+        description: Employee holds the value of the employee edge.
+        items:
+          $ref: '#/definitions/ent.Employee'
+        type: array
+    type: object
+  gin.H:
+    additionalProperties: true
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server for SUT SE 2563
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: SUT SA Example API Patient
+  version: "1.0"
+paths:
+  /departments:
+    get:
+      description: list department entities
+      operationId: list-department
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Department'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List department entities
+    post:
+      consumes:
+      - application/json
+      description: Create department
+      operationId: create-department
+      parameters:
+      - description: Department entity
+        in: body
+        name: department
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Department'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Department'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create department
+  /departments/{id}:
+    get:
+      description: get department by ID
+      operationId: get-department
+      parameters:
+      - description: Department ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Department'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a department entity by ID
+  /employees:
+    get:
+      description: list employee entities
+      operationId: list-employee
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Employee'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List employee entities
+    post:
+      consumes:
+      - application/json
+      description: Create employee
+      operationId: create-employee
+      parameters:
+      - description: Employee entity
+        in: body
+        name: employee
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Employee'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Employee'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create employee
+  /places:
+    get:
+      description: list place entities
+      operationId: list-place
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Place'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List place entities
+    post:
+      consumes:
+      - application/json
+      description: Create place
+      operationId: create-place
+      parameters:
+      - description: Place entity
+        in: body
+        name: place
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Place'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Place'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create place
+  /places/{id}:
+    get:
+      description: get place by ID
+      operationId: get-place
+      parameters:
+      - description: Place ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Place'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a place entity by ID
+  /titlenames:
+    get:
+      description: list titlename entities
+      operationId: list-titlename
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Titlename'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List titlename entities
+    post:
+      consumes:
+      - application/json
+      description: Create titlename
+      operationId: create-titlename
+      parameters:
+      - description: Titlename entity
+        in: body
+        name: titlename
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Titlename'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Titlename'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create titlename
+  /titlenames/{id}:
+    get:
+      description: get titlename by ID
+      operationId: get-titlename
+      parameters:
+      - description: Titlename ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Titlename'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a titlename entity by ID
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+  BasicAuth:
+    type: basic
+  OAuth2AccessCode:
+    authorizationUrl: https://example.com/oauth/authorize
+    flow: accessCode
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+  OAuth2Application:
+    flow: application
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      write: ' Grants write access'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+  OAuth2Implicit:
+    authorizationUrl: https://example.com/oauth/authorize
+    flow: implicit
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      write: ' Grants write access'
+    type: oauth2
+  OAuth2Password:
+    flow: password
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      read: ' Grants read access'
+      write: ' Grants write access'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+swagger: "2.0"
