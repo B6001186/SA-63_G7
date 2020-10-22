@@ -3,6 +3,7 @@ package controllers
 import (
 	"context"
 	"strconv"
+	"fmt"
 
 	"github.com/B6001186/app/ent"
 	"github.com/B6001186/app/ent/titlename"
@@ -135,6 +136,39 @@ func (ctl *TitlenameController) ListTitlename(c *gin.Context) {
 	c.JSON(200, titlenames)
 }
 
+// DeleteTitlename handles DELETE requests to delete a titlename entity
+// @Summary Delete a titlename entity by ID
+// @Description get titlename by ID
+// @ID delete-titlename
+// @Produce  json
+// @Param id path int true "Titlename ID"
+// @Success 200 {object} gin.H
+// @Failure 400 {object} gin.H
+// @Failure 404 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Router /titlenames/{id} [delete]
+func (ctl *TitlenameController) DeleteTitlename(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	err = ctl.client.Titlename.
+		DeleteOneID(int(id)).
+		Exec(context.Background())
+	if err != nil {
+		c.JSON(404, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{"result": fmt.Sprintf("ok deleted %v", id)})
+}
+
 
 // NewTitlenameController creates and registers handles for the titlename controller
 func NewTitlenameController(router gin.IRouter, client *ent.Client) *TitlenameController {
@@ -156,4 +190,5 @@ func (ctl *TitlenameController) register() {
 	titlenames.GET("", ctl.ListTitlename)
 	titlenames.POST("", ctl.CreateTitlename)
 	titlenames.GET(":id", ctl.GetTitlename)
+	titlenames.DELETE(":id", ctl.DeleteTitlename)
 }

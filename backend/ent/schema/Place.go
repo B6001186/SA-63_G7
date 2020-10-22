@@ -14,7 +14,7 @@ type Place struct {
 // Fields of the Place.
 func (Place) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("Name"),
+		field.String("Name").Unique(),
 	}
 }
 

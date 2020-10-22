@@ -3,6 +3,7 @@ package controllers
 import (
 	"context"
 	"strconv"
+	"fmt"
 	"time"
 
 	"github.com/B6001186/app/ent"
@@ -71,7 +72,7 @@ func (ctl *EmployeeController) CreateEmployee(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "title name not found",
+			"error": "titlename not found",
 		})
 		return
 	}
@@ -88,9 +89,9 @@ func (ctl *EmployeeController) CreateEmployee(c *gin.Context) {
 		return
 	}
 
-	birthday, err := time.Parse(time.RFC822, obj.BirthdayDate)
-	attend, err := time.Parse(time.RFC822, obj.AttendTime)
-	finish, err := time.Parse(time.RFC822, obj.FinishTime)
+	birthday, err := time.Parse(time.RFC3339, obj.BirthdayDate + " T00:00:00Z")
+	attend, err := time.Parse(time.RFC3339, "0000-00-00 " + obj.AttendTime )
+	finish, err := time.Parse(time.RFC3339, "0000-00-00 " + obj.FinishTime )
 
 	e, err := ctl.client.Employee.
 		Create().
@@ -165,6 +166,40 @@ func (ctl *EmployeeController) ListEmployee(c *gin.Context) {
 	c.JSON(200, employees)
 }
 
+// DeleteEmployee handles DELETE requests to delete a employee entity
+// @Summary Delete a employee entity by ID
+// @Description get employee by ID
+// @ID delete-employee
+// @Produce  json
+// @Param id path int true "Employee ID"
+// @Success 200 {object} gin.H
+// @Failure 400 {object} gin.H
+// @Failure 404 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Router /employees/{id} [delete]
+func (ctl *EmployeeController) DeleteEmployee(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	err = ctl.client.Employee.
+		DeleteOneID(int(id)).
+		Exec(context.Background())
+	if err != nil {
+		c.JSON(404, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{"result": fmt.Sprintf("ok deleted %v", id)})
+}
+
+
 // NewEmployeeController creates and registers handles for the department controller
 func NewEmployeeController(router gin.IRouter, client *ent.Client) *EmployeeController {
 	ec := &EmployeeController{
@@ -183,4 +218,5 @@ func (ctl *EmployeeController) register() {
 	employees := ctl.router.Group("/employees")
 	employees.GET("", ctl.ListEmployee)
 	employees.POST("", ctl.CreateEmployee)
+	employees.DELETE(":id", ctl.DeleteEmployee)
 }

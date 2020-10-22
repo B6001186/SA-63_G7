@@ -7,14 +7,12 @@ require (
 	github.com/facebookincubator/ent v0.2.7
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.5.0
-	github.com/go-openapi/spec v0.19.9 // indirect
-	github.com/go-openapi/swag v0.19.9 // indirect
+	github.com/go-openapi/spec v0.19.10 // indirect
+	github.com/go-openapi/swag v0.19.10 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect
 	github.com/mattn/go-sqlite3 v1.13.0
 	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14
 	github.com/swaggo/gin-swagger v1.2.0
 	github.com/swaggo/swag v1.6.7
-	golang.org/x/net v0.0.0-20201010224723-4f7140c49acb // indirect
-	golang.org/x/tools v0.0.0-20201015182029-a5d9e455e9c4 // indirect
-	gopkg.in/yaml.v2 v2.3.0 // indirect
+	golang.org/x/tools v0.0.0-20201022215848-ffe8bce740af // indirect
 )

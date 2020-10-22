@@ -14,7 +14,7 @@ type Department struct {
 // Fields of the Department.
 func (Department) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("Name"),
+		field.String("Name").Unique(),
 	}
 }
 

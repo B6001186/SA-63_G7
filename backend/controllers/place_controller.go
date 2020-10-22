@@ -3,6 +3,7 @@ package controllers
 import (
 	"context"
 	"strconv"
+	"fmt"
 
 	"github.com/B6001186/app/ent"
 	"github.com/B6001186/app/ent/place"
@@ -135,6 +136,40 @@ func (ctl *PlaceController) ListPlace(c *gin.Context) {
 	c.JSON(200, places)
 }
 
+// DeletePlace handles DELETE requests to delete a place entity
+// @Summary Delete a place entity by ID
+// @Description get place by ID
+// @ID delete-place
+// @Produce  json
+// @Param id path int true "Place ID"
+// @Success 200 {object} gin.H
+// @Failure 400 {object} gin.H
+// @Failure 404 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Router /places/{id} [delete]
+func (ctl *PlaceController) DeletePlace(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	err = ctl.client.Place.
+		DeleteOneID(int(id)).
+		Exec(context.Background())
+	if err != nil {
+		c.JSON(404, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{"result": fmt.Sprintf("ok deleted %v", id)})
+}
+
+
 
 // NewPlaceController creates and registers handles for the place controller
 func NewPlaceController(router gin.IRouter, client *ent.Client) *PlaceController {
@@ -156,5 +191,6 @@ func (ctl *PlaceController) register() {
 	places.GET("", ctl.ListPlace)
 	places.POST("", ctl.CreatePlace)
 	places.GET(":id", ctl.GetPlace)
+	places.DELETE(":id", ctl.DeletePlace)
 
 }

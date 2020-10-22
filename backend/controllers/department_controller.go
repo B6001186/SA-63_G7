@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 
 	"github.com/B6001186/app/ent"
@@ -136,6 +137,39 @@ func (ctl *DepartmentController) ListDepartment(c *gin.Context) {
 	c.JSON(200, departments)
 }
 
+// DeleteDepartment handles DELETE requests to delete a department entity
+// @Summary Delete a department entity by ID
+// @Description get department by ID
+// @ID delete-department
+// @Produce  json
+// @Param id path int true "Department ID"
+// @Success 200 {object} gin.H
+// @Failure 400 {object} gin.H
+// @Failure 404 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Router /departments/{id} [delete]
+func (ctl *DepartmentController) DeleteDepartment(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	err = ctl.client.Department.
+		DeleteOneID(int(id)).
+		Exec(context.Background())
+	if err != nil {
+		c.JSON(404, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{"result": fmt.Sprintf("ok deleted %v", id)})
+}
+
 
 // NewDepartmentController creates and registers handles for the department controller
 func NewDepartmentController(router gin.IRouter, client *ent.Client) *DepartmentController {
@@ -155,8 +189,8 @@ func (ctl *DepartmentController) register() {
 	departments := ctl.router.Group("/departments")
 
 	departments.GET("", ctl.ListDepartment)
-	departments.POST("", ctl.CreateDepartment)
 	departments.GET(":id", ctl.GetDepartment)
+	departments.POST("", ctl.CreateDepartment)
+	departments.DELETE(":id", ctl.DeleteDepartment)
 	
-
 }
