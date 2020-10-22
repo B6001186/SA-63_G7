@@ -3,7 +3,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Link from '@material-ui/core/Link';
+import {
+  Content,
+  Header,
+  Page,
+  pageTheme,
+  ContentHeader,
+} from '@backstage/core';
+import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import Box from '@material-ui/core/Box';
 import {
   Container,
   Grid,
@@ -61,6 +70,9 @@ const useStyles = makeStyles(theme => ({
     maxHeight: '100%',
     marginBottom: 50
   },
+  button: {
+    textAlign: 'right'
+  },
   header: {
     textAlign: 'center'
   },
@@ -72,7 +84,7 @@ const useStyles = makeStyles(theme => ({
   textTime: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    minWidth: "98%",
+    width: "98%",
     color: "blue"
   },
 
@@ -221,213 +233,226 @@ const Employee: FC<{}> = () => {
         </Toolbar>
       </AppBar>
 
-      <Container maxWidth="sm">
-        <Grid container spacing={3}>
-          <Grid item xs={10}>
-            <h2 style={{ textAlign: 'center' }}> เพิ่มข้อมูลโรคติดต่อ </h2>
-          </Grid>
-          <Grid item xs={10}>
-            <FormControl variant="outlined" className={classes.formControl}>
-              <TextField
-                required
-                error={!employee.userId && showInputError}
-                name="userId"
-                label="รหัสพนักงาน"
-                variant="outlined"
-                type="string"
-                size="medium"
-                value={employee.userId || ''}
-                onChange={handleInputChange}
-              />
-            </FormControl>
-          </Grid>
+      <Content>
+        <Button
+          size="large"
+          color="secondary"
+          style={{ float: 'right' }}
+          component={RouterLink}
+          to="/Table"
+          variant="contained"
+        >
+          แสดงข้อมูล
+             </Button>
 
-          <Grid item xs={9}>
-            <FormControl required variant="outlined" className={classes.formControl}>
-              <InputLabel>คำนำหน้าชื่อ</InputLabel>
-              <Select
-                error={!employee.titlename && showInputError}
-                name="titlename"
-                label="คำนำหน้าชื่อ"
-                value={employee.titlename || ''}
-                onChange={handleInputChange}
+        <Container maxWidth="sm">
+          <Grid container spacing={3}>
+            <Grid item xs={10}>
+              <h2 style={{ textAlign: 'center' }}> เพิ่มข้อมูลโรคติดต่อ </h2>
+            </Grid>
+            <Grid item xs={10}>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <TextField
+                  required
+                  error={!employee.userId && showInputError}
+                  name="userId"
+                  label="รหัสพนักงาน"
+                  variant="outlined"
+                  type="string"
+                  size="medium"
+                  value={employee.userId || ''}
+                  onChange={handleInputChange}
+                />
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={9}>
+              <FormControl required variant="outlined" className={classes.formControl}>
+                <InputLabel>คำนำหน้าชื่อ</InputLabel>
+                <Select
+                  error={!employee.titlename && showInputError}
+                  name="titlename"
+                  label="คำนำหน้าชื่อ"
+                  value={employee.titlename || ''}
+                  onChange={handleInputChange}
+                >
+                  {titlenames.map(item => {
+                    return (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={9}>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <TextField
+                  required
+                  error={!employee.name && showInputError}
+                  name="name"
+                  label="ชื่อ-นามสกุล"
+                  variant="outlined"
+                  type="string"
+                  size="medium"
+                  value={employee.name || ''}
+                  onChange={handleInputChange}
+                />
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={9}>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <TextField
+                  required
+                  error={!employee.tel && showInputError}
+                  name="tel"
+                  label="เบอร์โทรศัพท์"
+                  variant="outlined"
+                  type="int"
+                  size="medium"
+                  value={employee.tel || ''}
+                  onChange={handleInputChange}
+                />
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={9}>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <TextField
+                  required
+                  error={!employee.email && showInputError}
+                  name="email"
+                  label="อีเมล"
+                  variant="outlined"
+                  type="string"
+                  size="medium"
+                  value={employee.email || ''}
+                  onChange={handleInputChange}
+                />
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={9}>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <TextField
+                  variant="outlined"
+                  required
+                  error={!employee.birthdayDate && showInputError}
+                  label="วัน/เดือน/ปีเกิด"
+                  name="birthdayDate"
+                  type="date"
+                  value={employee.birthdayDate || ''}
+                  className={classes.textTime}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={handleInputChange}
+                />
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={9}>
+              <FormControl required variant="outlined" className={classes.formControl}>
+                <InputLabel>แผนกที่รับผิดชอบ</InputLabel>
+                <Select
+                  required
+                  error={!employee.department && showInputError}
+                  name="department"
+                  label="แผนกที่รับผิดชอบ"
+                  value={employee.department || ''}
+                  onChange={handleInputChange}
+                >
+                  {departments.map(item => {
+                    return (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={9}>
+              <FormControl required variant="outlined" className={classes.formControl}>
+                <InputLabel>สถานที่ทำงาน</InputLabel>
+                <Select
+                  required
+                  error={!employee.place && showInputError}
+                  name="place"
+                  label="สถานที่ทำงาน"
+                  value={employee.place || ''}
+                  onChange={handleInputChange}
+                >
+                  {places.map(item => {
+                    return (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={9}>
+              <FormControl required variant="outlined" className={classes.formControl}>
+                <TextField
+                  variant="outlined"
+                  required
+                  error={!employee.attendTime && showInputError}
+                  label="เวลาเข้าเวร"
+                  name="attendTime"
+                  type="time"
+                  value={employee.attendTime || ''}
+                  className={classes.textTime}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={handleInputChange}
+                />
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={9}>
+              <FormControl required variant="outlined" className={classes.formControl}>
+                <TextField
+                  variant="outlined"
+                  error={!employee.finishTime && showInputError}
+                  required
+                  label="เวลาออกเวร"
+                  name="finishTime"
+                  type="time"
+                  value={employee.finishTime || ''}
+                  className={classes.textTime}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={handleInputChange}
+                />
+              </FormControl>
+            </Grid>
+
+
+            <Grid item xs={10} >
+              <Button
+                name="saveData"
+                size="large"
+                variant="contained"
+                color="primary"
+                disableElevation
+                className={classes.buttonSty}
+                onClick={save}
               >
-                {titlenames.map(item => {
-                  return (
-                    <MenuItem key={item.id} value={item.id}>
-                      {item.name}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
+                บันทึก
+            </Button>
+            </Grid>
           </Grid>
-
-          <Grid item xs={9}>
-            <FormControl variant="outlined" className={classes.formControl}>
-              <TextField
-                required
-                error={!employee.name && showInputError}
-                name="name"
-                label="ชื่อ-นามสกุล"
-                variant="outlined"
-                type="string"
-                size="medium"
-                value={employee.name || ''}
-                onChange={handleInputChange}
-              />
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={9}>
-            <FormControl variant="outlined" className={classes.formControl}>
-              <TextField
-                required
-                error={!employee.tel && showInputError}
-                name="tel"
-                label="เบอร์โทรศัพท์"
-                variant="outlined"
-                type="int"
-                size="medium"
-                value={employee.tel || ''}
-                onChange={handleInputChange}
-              />
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={9}>
-            <FormControl variant="outlined" className={classes.formControl}>
-              <TextField
-                required
-                error={!employee.email && showInputError}
-                name="email"
-                label="อีเมล"
-                variant="outlined"
-                type="string"
-                size="medium"
-                value={employee.email || ''}
-                onChange={handleInputChange}
-              />
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={9}>
-            <FormControl variant="outlined" className={classes.formControl}>
-              <TextField
-                variant="outlined"
-                required
-                error={!employee.birthdayDate && showInputError}
-                label="วัน/เดือน/ปีเกิด"
-                name="birthdayDate"
-                type="date"
-                value={employee.birthdayDate || ''}
-                className={classes.textTime}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={handleInputChange}
-              />
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={9}>
-            <FormControl required variant="outlined" className={classes.formControl}>
-              <InputLabel>แผนกที่รับผิดชอบ</InputLabel>
-              <Select
-                required
-                error={!employee.department && showInputError}
-                name="department"
-                label="แผนกที่รับผิดชอบ"
-                value={employee.department || ''}
-                onChange={handleInputChange}
-              >
-                {departments.map(item => {
-                  return (
-                    <MenuItem key={item.id} value={item.id}>
-                      {item.name}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={9}>
-            <FormControl required variant="outlined" className={classes.formControl}>
-              <InputLabel>สถานที่ทำงาน</InputLabel>
-              <Select
-                required
-                error={!employee.place && showInputError}
-                name="place"
-                label="สถานที่ทำงาน"
-                value={employee.place || ''}
-                onChange={handleInputChange}
-              >
-                {places.map(item => {
-                  return (
-                    <MenuItem key={item.id} value={item.id}>
-                      {item.name}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={9}>
-            <FormControl required variant="outlined" className={classes.formControl}>
-              <TextField
-                variant="outlined"
-                required
-                error={!employee.attendTime && showInputError}
-                label="เวลาเข้าเวร"
-                name="attendTime"
-                type="time"
-                value={employee.attendTime || ''}
-                className={classes.textTime}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={handleInputChange}
-              />
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={9}>
-            <FormControl required variant="outlined" className={classes.formControl}>
-              <TextField
-                variant="outlined"
-                error={!employee.finishTime && showInputError}
-                required
-                label="เวลาออกเวร"
-                name="finishTime"
-                type="time"
-                value={employee.finishTime || ''}
-                className={classes.textTime}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={handleInputChange}
-              />
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={3}></Grid>
-          <Grid item xs={9}>
-            <Button
-              name="saveData"
-              size="large"
-              variant="contained"
-              color="primary"
-              disableElevation
-              className={classes.buttonSty}
-              onClick={save}
-            >
-              บันทึกข้อมูล
-              </Button>
-          </Grid>
-        </Grid>
-      </Container>
+        </Container>
+      </Content>
     </div>
   );
 };

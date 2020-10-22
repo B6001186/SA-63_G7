@@ -64,9 +64,9 @@ export function EntEmployeeEdgesFromJSONTyped(json: any, ignoreDiscriminator: bo
     }
     return {
         
-        'department': !exists(json, 'department') ? undefined : EntDepartmentFromJSON(json['department']),
-        'place': !exists(json, 'place') ? undefined : EntPlaceFromJSON(json['place']),
-        'titlename': !exists(json, 'titlename') ? undefined : EntTitlenameFromJSON(json['titlename']),
+        'department': !exists(json, 'Department') ? undefined : EntDepartmentFromJSON(json['Department']),
+        'place': !exists(json, 'Place') ? undefined : EntPlaceFromJSON(json['Place']),
+        'titlename': !exists(json, 'Titlename') ? undefined : EntTitlenameFromJSON(json['Titlename']),
     };
 }
 

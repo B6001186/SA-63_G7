@@ -18,8 +18,8 @@ import Swal from 'sweetalert2'; // alert
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © KOB4k | '}
-      <Link color="inherit" href="https://github.com/KOB4k/SA-63_G7.git">
+      {'Copyright © B6001186 | '}
+      <Link color="inherit" href="https://github.com/B6001186/SA-63_G7">
         Your Github
       </Link>{' '}
       {new Date().getFullYear()}
@@ -85,8 +85,8 @@ const Login: FC<{}> = () => {
 
 
   function redirecLogin() {
-    if ((login.username == "B6004491" && login.password == "1234") ||
-      (login.username == "B6004491" && login.password == "7890")
+    if ((login.username == "D12345" && login.password == "1234") ||
+      (login.username == "D54321" && login.password == "7890")
     ) {
       Toast.fire({
         icon: 'success',
@@ -94,7 +94,7 @@ const Login: FC<{}> = () => {
       });
       //redirec Page ... http://localhost:3000/Disease
       window.location.href = "http://localhost:3000/Employee";
-      console.log("LOGIN TO CONTAGION");
+      console.log("LOGIN");
     } else {
       Toast.fire({
         icon: 'error',
@@ -123,7 +123,7 @@ const Login: FC<{}> = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            LOGIN TO CONTAGION
+            LOGIN
           </Typography>
           <form className={classes.form} noValidate>
             <TextField

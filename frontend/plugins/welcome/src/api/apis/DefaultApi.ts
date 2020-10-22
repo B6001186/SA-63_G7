@@ -45,6 +45,22 @@ export interface CreateTitlenameRequest {
     titlename: EntTitlename;
 }
 
+export interface DeleteDepartmentRequest {
+    id: number;
+}
+
+export interface DeleteEmployeeRequest {
+    id: number;
+}
+
+export interface DeletePlaceRequest {
+    id: number;
+}
+
+export interface DeleteTitlenameRequest {
+    id: number;
+}
+
 export interface GetDepartmentRequest {
     id: number;
 }
@@ -219,6 +235,134 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async createTitlename(requestParameters: CreateTitlenameRequest): Promise<EntTitlename> {
         const response = await this.createTitlenameRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * get department by ID
+     * Delete a department entity by ID
+     */
+    async deleteDepartmentRaw(requestParameters: DeleteDepartmentRequest): Promise<runtime.ApiResponse<object>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling deleteDepartment.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/departments/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * get department by ID
+     * Delete a department entity by ID
+     */
+    async deleteDepartment(requestParameters: DeleteDepartmentRequest): Promise<object> {
+        const response = await this.deleteDepartmentRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * get employee by ID
+     * Delete a employee entity by ID
+     */
+    async deleteEmployeeRaw(requestParameters: DeleteEmployeeRequest): Promise<runtime.ApiResponse<object>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling deleteEmployee.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/employees/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * get employee by ID
+     * Delete a employee entity by ID
+     */
+    async deleteEmployee(requestParameters: DeleteEmployeeRequest): Promise<object> {
+        const response = await this.deleteEmployeeRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * get place by ID
+     * Delete a place entity by ID
+     */
+    async deletePlaceRaw(requestParameters: DeletePlaceRequest): Promise<runtime.ApiResponse<object>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling deletePlace.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/places/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * get place by ID
+     * Delete a place entity by ID
+     */
+    async deletePlace(requestParameters: DeletePlaceRequest): Promise<object> {
+        const response = await this.deletePlaceRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * get titlename by ID
+     * Delete a titlename entity by ID
+     */
+    async deleteTitlenameRaw(requestParameters: DeleteTitlenameRequest): Promise<runtime.ApiResponse<object>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling deleteTitlename.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/titlenames/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * get titlename by ID
+     * Delete a titlename entity by ID
+     */
+    async deleteTitlename(requestParameters: DeleteTitlenameRequest): Promise<object> {
+        const response = await this.deleteTitlenameRaw(requestParameters);
         return await response.value();
     }
 
