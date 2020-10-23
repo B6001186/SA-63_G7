@@ -162,6 +162,8 @@ const Employee: FC<{}> = () => {
   });
 
   function save() {
+    employee.attendTime += ":00+07:00";
+    employee.finishTime += ":00+07:00";
     setShowInputError(true);
     let { userId, titlename, name, tel, email, birthdayDate, department, place, attendTime, finishTime } = employee;
     if (!userId || !titlename || !name || !tel || !email || !birthdayDate || !department || !place || !attendTime || !finishTime) {
@@ -248,7 +250,7 @@ const Employee: FC<{}> = () => {
         <Container maxWidth="sm">
           <Grid container spacing={3}>
             <Grid item xs={10}>
-              <h2 style={{ textAlign: 'center' }}> เพิ่มข้อมูลโรคติดต่อ </h2>
+              <h2 style={{ textAlign: 'center' }}> เพิ่มข้อมูลบุคลากร </h2>
             </Grid>
             <Grid item xs={10}>
               <FormControl variant="outlined" className={classes.formControl}>
@@ -406,7 +408,7 @@ const Employee: FC<{}> = () => {
                   error={!employee.attendTime && showInputError}
                   label="เวลาเข้าเวร"
                   name="attendTime"
-                  type="time"
+                  type="datetime-local"
                   value={employee.attendTime || ''}
                   className={classes.textTime}
                   InputLabelProps={{
@@ -425,7 +427,7 @@ const Employee: FC<{}> = () => {
                   required
                   label="เวลาออกเวร"
                   name="finishTime"
-                  type="time"
+                  type="datetime-local"
                   value={employee.finishTime || ''}
                   className={classes.textTime}
                   InputLabelProps={{

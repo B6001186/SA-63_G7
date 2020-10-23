@@ -89,9 +89,9 @@ func (ctl *EmployeeController) CreateEmployee(c *gin.Context) {
 		return
 	}
 
-	birthday, err := time.Parse(time.RFC3339, obj.BirthdayDate + " T00:00:00Z")
-	attend, err := time.Parse(time.RFC3339, "0000-00-00 " + obj.AttendTime )
-	finish, err := time.Parse(time.RFC3339, "0000-00-00 " + obj.FinishTime )
+	birthday, err := time.Parse(time.RFC3339, obj.BirthdayDate + "T00:00:00Z")
+	attend, err := time.Parse(time.RFC3339, obj.AttendTime)
+	finish, err := time.Parse(time.RFC3339, obj.FinishTime)
 
 	e, err := ctl.client.Employee.
 		Create().
