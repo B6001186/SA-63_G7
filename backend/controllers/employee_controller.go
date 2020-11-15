@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"context"
 	"strconv"
 	"fmt"
@@ -89,9 +90,16 @@ func (ctl *EmployeeController) CreateEmployee(c *gin.Context) {
 		return
 	}
 
+	time1 := "0000-01-01T" + obj.AttendTime + ":00Z"
+	time2 := "0000-01-01T" + obj.FinishTime + ":00Z"
+	
 	birthday, err := time.Parse(time.RFC3339, obj.BirthdayDate + "T00:00:00Z")
-	attend, err := time.Parse(time.RFC3339, obj.AttendTime)
-	finish, err := time.Parse(time.RFC3339, obj.FinishTime)
+	attend, err := time.Parse(time.RFC3339, time1)
+	finish, err := time.Parse(time.RFC3339, time2)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	e, err := ctl.client.Employee.
 		Create().

@@ -91,10 +91,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface Employee {
-  attendTime: string;
-  birthdayDate: string;
+  attendTime: TimeRanges;
+  birthdayDate: Date;
   email: string;
-  finishTime: string;
+  finishTime: TimeRanges;
   name: string;
   tel: string;
   userId: string;
@@ -162,8 +162,6 @@ const Employee: FC<{}> = () => {
   });
 
   function save() {
-    employee.attendTime += ":00+07:00";
-    employee.finishTime += ":00+07:00";
     setShowInputError(true);
     let { userId, titlename, name, tel, email, birthdayDate, department, place, attendTime, finishTime } = employee;
     if (!userId || !titlename || !name || !tel || !email || !birthdayDate || !department || !place || !attendTime || !finishTime) {
@@ -408,7 +406,7 @@ const Employee: FC<{}> = () => {
                   error={!employee.attendTime && showInputError}
                   label="เวลาเข้าเวร"
                   name="attendTime"
-                  type="datetime-local"
+                  type="time"
                   value={employee.attendTime || ''}
                   className={classes.textTime}
                   InputLabelProps={{
@@ -427,7 +425,7 @@ const Employee: FC<{}> = () => {
                   required
                   label="เวลาออกเวร"
                   name="finishTime"
-                  type="datetime-local"
+                  type="time"
                   value={employee.finishTime || ''}
                   className={classes.textTime}
                   InputLabelProps={{
