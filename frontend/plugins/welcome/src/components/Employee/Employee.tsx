@@ -82,9 +82,9 @@ const useStyles = makeStyles(theme => ({
     color: 'white'
   },
   textTime: {
-    marginLeft: theme.spacing(1),
+    marginLeft: theme.spacing(0),
     marginRight: theme.spacing(1),
-    width: "98%",
+    width: "100%",
     color: "blue"
   },
 
